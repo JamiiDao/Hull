@@ -1,10 +1,10 @@
 [package]
-name = "solana-hull"
+name = "hull-svm"
 version.workspace = true
 edition.workspace = true
 authors.workspace = true
 license.workspace = true
-description.workspace = true
+description = "Hull-SVM lightweight framework client"
 keywords.workspace = true
 categories.workspace = true
 readme.workspace = true

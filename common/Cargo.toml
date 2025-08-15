@@ -1,9 +1,15 @@
 [package]
-name = "hull-common"
+name = "hull-svm-common"
 version.workspace = true
 edition.workspace = true
 authors.workspace = true
 license.workspace = true
-description.workspace = true
+description = "Shared utilities for the Hull Framework"
+
+[features]
+default = []
+ordering = []
+display_and_debug = []
 
 [dependencies]
+thiserror = { version = "2.0.14", default-features = false }
