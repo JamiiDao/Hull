@@ -1,5 +1,5 @@
 [workspace]
-members = ["hull"]
+members = ["hull", "common"]
 resolver = "3"
 
 [workspace.package]
@@ -7,7 +7,6 @@ version = "0.0.0"
 edition = "2024"
 authors = ["448-OG <superuser@448.africa>"]
 license = "Apache-2.0 OR MIT"
-description = "Solana Rust client for developer productivity both WASM and native development."
 keywords = [
     "solana",
     "solana-client",
@@ -21,3 +20,8 @@ homepage = "https://jamiidao.app"
 repository = "https://github.com/JamiiDao/Hull"
 
 [workspace.dependencies]
+hull-svm-common = { path = "./common" }
+
+pinocchio = "0.9.0"
+pinocchio-pubkey = { version = "0.3.0", default-features = false }
+pinocchio-token = "0.4.0"
