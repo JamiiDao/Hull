@@ -1,3 +1,4 @@
+#[cfg(feature = "display_and_debug")]
 use core::fmt;
 
 use crate::HullSvmError;
@@ -67,6 +68,7 @@ impl Semver {
     const ALPHA_RANK: u8 = 0;
     const BETA_RANK: u8 = 1;
     const RELEASE_CANDIDATE_RANK: u8 = 2;
+    #[cfg(feature = "ordering")]
     const STABLE_RANK: u8 = 3;
     const NO_RANK: u8 = 4;
     const MAJOR_INDEX: usize = 0;
@@ -333,7 +335,10 @@ impl TryFrom<&[u8]> for Semver {
     }
 }
 
-/// Use [SemverTextBuffer] to convert [Semver] to a byte slice that can be
+/// Use
+#[cfg_attr(feature = "display_and_debug", doc = "[SemverTextBuffer]")]
+#[cfg_attr(not(feature = "display_and_debug"), doc = "`SemverTextBuffer`")]
+/// to convert [Semver] to a byte slice that can be
 /// converted to a valid UTF-8 stack allocated string `(&str)`
 /// ### Usage
 /// ```rust
@@ -349,7 +354,7 @@ pub struct SemverTextBuffer([u8; Self::TEXT_BUFFER_SIZE]);
 
 #[cfg(feature = "display_and_debug")]
 impl SemverTextBuffer {
-    const SEPERATOR_CHAR_SIZE: usize = 1;
+    const SEPARATOR_CHAR_SIZE: usize = 1;
     const U8_MAX_CHARS: usize = 3;
     const MAX_UNSTABLE_CHAR_SIZE: usize = 5;
     const CHAR_BUFFER: [u8; crate::Utils::ASCII_DIGIT_BUFFER_SIZE] =
@@ -365,7 +370,7 @@ impl SemverTextBuffer {
 
     const TEXT_BUFFER_SIZE: usize = Self::MARKER_LEN
         + (SemverTextBuffer::U8_MAX_CHARS * 4)
-        + (SemverTextBuffer::SEPERATOR_CHAR_SIZE * 4)
+        + (SemverTextBuffer::SEPARATOR_CHAR_SIZE * 4)
         + SemverTextBuffer::MAX_UNSTABLE_CHAR_SIZE;
 
     /// Instantiate a new zero filled buffer
@@ -411,7 +416,7 @@ impl SemverTextBuffer {
             valid_buffer_length += marker;
             if separator {
                 self.0[valid_buffer_length] = b'.';
-                valid_buffer_length += Self::SEPERATOR_CHAR_SIZE;
+                valid_buffer_length += Self::SEPARATOR_CHAR_SIZE;
             }
         };
 
@@ -426,13 +431,13 @@ impl SemverTextBuffer {
             |value: Option<u8>, char_buffer: &mut [u8; 3], chars: &[u8], char_size: usize| {
                 if let Some(inner_value) = value {
                     self.0[valid_buffer_length] = b'-';
-                    valid_buffer_length += Self::SEPERATOR_CHAR_SIZE;
+                    valid_buffer_length += Self::SEPARATOR_CHAR_SIZE;
 
                     self.0[valid_buffer_length..valid_buffer_length + char_size]
                         .copy_from_slice(chars);
                     valid_buffer_length += char_size;
                     self.0[valid_buffer_length] = b'.';
-                    valid_buffer_length += Self::SEPERATOR_CHAR_SIZE;
+                    valid_buffer_length += Self::SEPARATOR_CHAR_SIZE;
 
                     let inner_value_marker = Utils::u8_to_ascii_digits(inner_value, char_buffer);
 
