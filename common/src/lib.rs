@@ -2,7 +2,6 @@
 #![forbid(missing_docs)]
 
 //! Module for common utilities for the Hull SVM framework.
-//!
 
 mod semver;
 pub use semver::*;
