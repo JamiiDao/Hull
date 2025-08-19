@@ -1,0 +1,2 @@
+[files]
+extend-exclude = ["common/src/accounts/prebuilt_programs.rs"]
